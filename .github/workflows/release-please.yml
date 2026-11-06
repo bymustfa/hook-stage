@@ -1,0 +1,28 @@
+name: release-please
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+      - name: Publish to npm
+        # Publishing needs explicit maintainer approval.
+        if: false
+        run: echo "npm publish is disabled"
+      - name: Upload GitHub release assets
+        # Publishing needs explicit maintainer approval.
+        if: false
+        run: echo "GitHub release asset upload is disabled"
+      - name: Push Docker image
+        # Publishing needs explicit maintainer approval.
+        if: false
+        run: echo "Docker push is disabled. This version does not publish an image."

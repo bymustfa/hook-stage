@@ -1,0 +1,27 @@
+name: Feature
+description: A change to the editor, runner, or scenario file
+title: "feat: "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Which webhook delivery mistake is hard to reproduce today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This does not require arbitrary JavaScript, shell access, or reading the app database
+          required: true
+        - label: Targets stay on localhost unless a maintainer explicitly expands that
+          required: true
