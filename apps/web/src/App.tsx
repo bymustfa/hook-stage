@@ -38,6 +38,8 @@ export function App() {
   const [banner, setBanner] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [railOpen, setRailOpen] = useState(true);
+  const [discardTarget, setDiscardTarget] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const watchRef = useRef<AbortController | null>(null);
 
@@ -51,6 +53,17 @@ export function App() {
       return error instanceof ScenarioValidationError ? error.errors.join(" ") : error instanceof Error ? error.message : "Invalid scenario";
     }
   }, [draft]);
+
+  useEffect(() => {
+    if (!preview && !discardTarget) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setPreview(false);
+      setDiscardTarget(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [preview, discardTarget]);
 
   useEffect(() => {
     let cancel = false;
@@ -75,7 +88,10 @@ export function App() {
   }, []);
 
   async function openScenario(active: Client, id: string, guard: boolean) {
-    if (guard && dirty && !window.confirm("Discard unsaved edits?")) return;
+    if (guard && dirty) {
+      setDiscardTarget(id);
+      return;
+    }
     const detail = await active.getScenario(id);
     setSelectedId(detail.id);
     setSaved(detail.document);
@@ -145,6 +161,9 @@ export function App() {
 
   return (
     <div className="app">
+      <a className="skip" href="#studio">
+        Skip to scenario
+      </a>
       <header className="top">
         <div className="brand">
           <span className="mark" aria-hidden="true" />
@@ -173,6 +192,9 @@ export function App() {
           </div>
         ) : null}
         <div className="top-actions">
+          <button type="button" aria-pressed={railOpen} onClick={() => setRailOpen((open) => !open)}>
+            {railOpen ? "Hide scenarios" : "Show scenarios"}
+          </button>
           <button type="button" disabled={!dirty || !draft || Boolean(validation) || Boolean(jsonError) || busy} onClick={() => void onSave()}>
             Save
           </button>
@@ -200,7 +222,8 @@ export function App() {
       ) : null}
       {validation && draft ? <p className="banner warn">{validation}</p> : null}
 
-      <main className="workspace">
+      <main id="studio" className={railOpen ? "workspace" : "workspace rail-closed"}>
+        {railOpen ? (
         <nav className="rail" aria-label="Scenarios">
           <div className="rail-actions">
             <button type="button" onClick={() => void onCreate()}>
@@ -233,7 +256,11 @@ export function App() {
               </li>
             ))}
           </ul>
+          {client && scenarios.length === 0 ? (
+            <p className="empty-copy">No scenarios on this machine yet. Create one, or import a JSON file.</p>
+          ) : null}
         </nav>
+        ) : null}
 
         {draft && client ? (
           <section className="studio">
@@ -296,8 +323,11 @@ export function App() {
             ) : null}
           </section>
         ) : (
-          <section className="studio">
-            <p className="empty-copy">Loading the example scenario…</p>
+          <section className="studio" aria-busy="true">
+            <p className="sr-only">Loading scenarios</p>
+            <div className="skeleton" />
+            <div className="skeleton block gap" />
+            <div className="skeleton block gap" />
           </section>
         )}
 
@@ -321,6 +351,31 @@ export function App() {
           void client.getRun(id).then((run) => setRuns((current) => ({ ...current, [variantId]: run }))).catch((error: unknown) => setBanner(message(error)));
         }}
       />
+
+      {discardTarget && client ? (
+        <div className="modal-backdrop" role="presentation">
+          <div className="modal" role="dialog" aria-modal="true" aria-labelledby="discard-title">
+            <h2 id="discard-title">Discard unsaved edits?</h2>
+            <p>The copy on this machine stays at the last save. This does not run the scenario.</p>
+            <div className="modal-actions">
+              <button type="button" onClick={() => setDiscardTarget(null)}>
+                Keep editing
+              </button>
+              <button
+                type="button"
+                className="primary"
+                onClick={() => {
+                  const nextId = discardTarget;
+                  setDiscardTarget(null);
+                  void openScenario(client, nextId, false).catch((error: unknown) => setBanner(message(error)));
+                }}
+              >
+                Discard edits
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {preview && draft ? (
         <RunPreview
@@ -524,7 +579,7 @@ function RunPreview(props: {
             Cancel
           </button>
           {props.scenario.reset ? (
-            <button type="button" className="primary" disabled={props.busy} onClick={() => props.onRun(true)}>
+            <button type="button" className="primary" disabled={props.busy} autoFocus onClick={() => props.onRun(true)}>
               Reset fixture and run
             </button>
           ) : null}

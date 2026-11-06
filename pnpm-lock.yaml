@@ -79,14 +79,11 @@ importers:
       '@dnd-kit/utilities':
         specifier: ^3.2.2
         version: 3.2.2(react@19.3.1)
-      '@fontsource/fraunces':
-        specifier: ^5.2.9
+      '@fontsource/geist':
+        specifier: ^5.3.0
         version: 5.3.0
-      '@fontsource/ibm-plex-mono':
-        specifier: ^5.2.7
-        version: 5.3.0
-      '@fontsource/outfit':
-        specifier: ^5.2.8
+      '@fontsource/geist-mono':
+        specifier: ^5.3.0
         version: 5.3.0
       '@hook-stage/scenario':
         specifier: workspace:*
@@ -612,14 +609,11 @@ packages:
   '@fastify/static@8.3.0':
     resolution: {integrity: sha512-yKxviR5PH1OKNnisIzZKmgZSus0r2OZb8qCSbqmw34aolT4g3UlzYfeBRym+HJ1J471CR8e2ldNub4PubD1coA==}
 
-  '@fontsource/fraunces@5.3.0':
-    resolution: {integrity: sha512-LEHTOBiZufQzAvnAe2rZ8ZknbDS28Q9kzwb0L+gZJEmjLGr8hhZ/5NuHXwDuHBWhVXYoiGGXmrb0H6Ko/RrHTg==}
+  '@fontsource/geist-mono@5.3.0':
+    resolution: {integrity: sha512-UtJ1BBBCVpMYdIcW7nEB45UAoAw5M53ZXs2t0ciPW+IokuAAIc56M8+kW5tXbRJCTpDw4XTtU7proT6NdQAHTg==}
 
-  '@fontsource/ibm-plex-mono@5.3.0':
-    resolution: {integrity: sha512-eTgnZjZEGk1QtD3ZstF+Vclo2HLAni8YMy34/DxllwZvyz1lR/1RF/xTiAquOBO7MvqBx8D2Ig2WCPMVfdZu7Q==}
-
-  '@fontsource/outfit@5.3.0':
-    resolution: {integrity: sha512-0AVHzTTVJSxWDOxPKSfMeHhZeBFDU3cmgrcOb76ZEyhGo0+xgyG3GsLF3h9+X8w0IX7G4jzjJgFQEBiWdX6VgA==}
+  '@fontsource/geist@5.3.0':
+    resolution: {integrity: sha512-u03ftlfVwb05uijq2jGDJ03/HKGqMKaNFk7KOhkpBUex8+BhrAOfMs/XciJ2UUNUX9fEsZbZQld/RWMA2oFU7g==}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -2479,11 +2473,9 @@ snapshots:
       fastq: 1.20.3
       glob: 11.1.0
 
-  '@fontsource/fraunces@5.3.0': {}
+  '@fontsource/geist-mono@5.3.0': {}
 
-  '@fontsource/ibm-plex-mono@5.3.0': {}
-
-  '@fontsource/outfit@5.3.0': {}
+  '@fontsource/geist@5.3.0': {}
 
   '@humanfs/core@0.19.2':
     dependencies:
