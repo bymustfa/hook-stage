@@ -70,7 +70,12 @@ export function DeliveryCards(props: {
           ))}
         </ol>
       </SortableContext>
-      {visual.length === 0 ? <p className="empty-copy">This flow has no deliveries. Add one from the event library.</p> : null}
+      {visual.length === 0 ? (
+          <div className="empty-copy">
+            <p>This flow has no deliveries.</p>
+            <p>Add one from the event library, or copy the normal flow into this tab.</p>
+          </div>
+        ) : null}
       <p className="hint">Tab to a grip, press Space, then use the arrow keys. Time slots stay in order; the event moves between them.</p>
     </DndContext>
   );
@@ -115,8 +120,8 @@ function SortableCard(props: {
         <span className="cue">{String(props.index + 1).padStart(2, "0")}</span>
         <span>
           <strong>{props.delivery.eventKey}</strong>
-          {props.repeat ? <em className="badge">Repeat</em> : null}
-          {props.shared && !props.repeat ? <em className="badge quiet">Shared event</em> : null}
+          {props.repeat ? <span className="badge">Repeat</span> : null}
+          {props.shared && !props.repeat ? <span className="badge quiet">Shared event</span> : null}
           <small>
             {summary.type ?? "event"} · id {summary.id ?? "—"}
           </small>
