@@ -24,4 +24,8 @@ jobs:
       - uses: github/codeql-action/init@v3
         with:
           languages: javascript-typescript
+      # Code scanning is not enabled on this private repository, so uploading
+      # SARIF fails the job. The analysis still runs.
       - uses: github/codeql-action/analyze@v3
+        with:
+          upload: false
