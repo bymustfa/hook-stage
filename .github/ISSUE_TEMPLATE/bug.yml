@@ -1,0 +1,33 @@
+name: Bug
+description: A hook-stage behavior that does not match the scenario you ran
+title: "bug: "
+labels: []
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include the HTTP summary and the business summary if you have them.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      placeholder: |
+        1. Load fixtures/delayed-duplicate-payment.json
+        2. Run the modified flow against the buggy receiver with fixture reset
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Commit or version
+    validations:
+      required: true

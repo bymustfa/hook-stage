@@ -1,0 +1,8 @@
+---
+description: Commit and pull request text must not carry an AI signature
+alwaysApply: true
+---
+
+Do not add a Claude signature, Co-Authored-By line, or "Generated with Claude Code" (or any AI-tool signature) to commit messages or PR descriptions.
+
+Commit mesajlarına ve PR açıklamalarına Claude imzası, Co-Authored-By satırı veya "Generated with Claude Code" ifadesi ekleme.

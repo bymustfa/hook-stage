@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "name": "Reversed refund and payment",
+  "description": "order.refunded is delivered before order.paid. The fixed receiver keeps the newer domain version. Synthetic data only.",
+  "targetProfile": "local-demo",
+  "events": [
+    {
+      "key": "paid",
+      "body": {
+        "id": "evt_paid_rev",
+        "type": "order.paid",
+        "orderId": "order_reverse",
+        "version": 1
+      }
+    },
+    {
+      "key": "refunded",
+      "body": {
+        "id": "evt_refund_rev",
+        "type": "order.refunded",
+        "orderId": "order_reverse",
+        "version": 2
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "normal",
+      "deliveries": [
+        { "id": "n1", "eventKey": "paid", "atMs": 0 },
+        { "id": "n2", "eventKey": "refunded", "atMs": 200 }
+      ]
+    },
+    {
+      "id": "modified",
+      "deliveries": [
+        { "id": "m1", "eventKey": "refunded", "atMs": 0 },
+        { "id": "m2", "eventKey": "paid", "atMs": 400 }
+      ]
+    }
+  ],
+  "verification": {
+    "statePath": "/__test/orders/order_reverse",
+    "readyWhen": { "pointer": "/pendingJobs", "equals": 0 },
+    "timeoutMs": 5000,
+    "pollIntervalMs": 50,
+    "assertions": [
+      { "pointer": "/status", "operator": "equals", "expected": "refunded" },
+      { "pointer": "/version", "operator": "equals", "expected": 2 }
+    ]
+  },
+  "reset": { "method": "POST", "path": "/__test/reset" }
+}

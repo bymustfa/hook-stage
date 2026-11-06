@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "name": "Delayed duplicate payment",
+  "description": "A late duplicate of order.paid arrives after the refund. The event id is unchanged. Synthetic data only.",
+  "targetProfile": "local-demo",
+  "events": [
+    {
+      "key": "paid",
+      "body": {
+        "id": "evt_paid",
+        "type": "order.paid",
+        "orderId": "order_demo",
+        "version": 1
+      }
+    },
+    {
+      "key": "refunded",
+      "body": {
+        "id": "evt_refund",
+        "type": "order.refunded",
+        "orderId": "order_demo",
+        "version": 2
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "normal",
+      "deliveries": [
+        { "id": "d1", "eventKey": "paid", "atMs": 0 },
+        { "id": "d2", "eventKey": "refunded", "atMs": 300 }
+      ]
+    },
+    {
+      "id": "modified",
+      "deliveries": [
+        { "id": "d3", "eventKey": "paid", "atMs": 0 },
+        { "id": "d4", "eventKey": "refunded", "atMs": 300 },
+        { "id": "d5", "eventKey": "paid", "atMs": 1500 }
+      ]
+    }
+  ],
+  "verification": {
+    "statePath": "/__test/orders/order_demo",
+    "readyWhen": { "pointer": "/pendingJobs", "equals": 0 },
+    "timeoutMs": 5000,
+    "pollIntervalMs": 200,
+    "assertions": [
+      { "pointer": "/status", "operator": "equals", "expected": "refunded" },
+      { "pointer": "/paymentApplications", "operator": "equals", "expected": 1 }
+    ]
+  },
+  "reset": { "method": "POST", "path": "/__test/reset" }
+}
