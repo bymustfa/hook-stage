@@ -37,7 +37,7 @@ function RunColumn(props: { title: string; run: RunView | null }) {
       <article className="run">
         <h3>{props.title}</h3>
         <div className="empty-copy">
-          <p>No run yet.</p>
+          <p>No run yet</p>
           <p>Run this flow to see the HTTP result and the business result side by side.</p>
         </div>
       </article>

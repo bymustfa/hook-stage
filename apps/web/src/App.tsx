@@ -188,7 +188,9 @@ export function App() {
                 {profile ? null : <option value={draft.targetProfile}>{draft.targetProfile}</option>}
               </select>
             </label>
-            <code>{profile ? `${profile.baseUrl}${profile.webhookPath}` : "Profile is not configured on this machine"}</code>
+            <code title={profile ? `${profile.baseUrl}${profile.webhookPath}` : undefined}>
+              {profile ? `${profile.baseUrl}${profile.webhookPath}` : "Profile is not configured on this machine"}
+            </code>
           </div>
         ) : null}
         <div className="top-actions">
@@ -564,7 +566,7 @@ function RunPreview(props: {
             one response.
           </p>
         ) : (
-          <p>No verification is configured. The business result will be UNVERIFIED.</p>
+          <p>No verification is configured. The business result will be unverified.</p>
         )}
         {props.scenario.reset ? (
           <p>
