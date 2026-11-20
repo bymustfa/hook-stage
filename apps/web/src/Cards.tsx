@@ -72,11 +72,13 @@ export function DeliveryCards(props: {
       </SortableContext>
       {visual.length === 0 ? (
           <div className="empty-copy">
-            <p>This flow has no deliveries.</p>
+            <p>This flow has no deliveries</p>
             <p>Add one from the event library, or copy the normal flow into this tab.</p>
           </div>
         ) : null}
-      <p className="hint">Tab to a grip, press Space, then use the arrow keys. Time slots stay in order; the event moves between them.</p>
+      <p className="hint">
+        <kbd>Tab</kbd> to a grip, then <kbd>Space</kbd>, then the arrow keys. Time slots stay in order. The event moves between them.
+      </p>
     </DndContext>
   );
 }
@@ -114,10 +116,10 @@ function SortableCard(props: {
         {...sortable.attributes}
         {...sortable.listeners}
       >
-        ::
+        <GripIcon />
       </div>
       <button type="button" className="card-main" onClick={props.onSelect} aria-pressed={props.selected}>
-        <span className="cue">{String(props.index + 1).padStart(2, "0")}</span>
+        <span className="cue">{props.index + 1}</span>
         <span>
           <strong>{props.delivery.eventKey}</strong>
           {props.repeat ? <span className="badge">Repeat</span> : null}
@@ -158,5 +160,18 @@ function SortableCard(props: {
         </button>
       </div>
     </li>
+  );
+}
+
+function GripIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <circle cx="9" cy="6" r="1" fill="currentColor" stroke="none" />
+      <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="9" cy="18" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="6" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="18" r="1" fill="currentColor" stroke="none" />
+    </svg>
   );
 }

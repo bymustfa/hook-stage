@@ -107,7 +107,7 @@ function VerificationEditor(props: {
   if (!verification) {
     return (
       <div className="inspector-body">
-        <p className="unverified">UNVERIFIED</p>
+        <p className="unverified">Unverified</p>
         <p className="hint">Without a state endpoint and assertions, a run cannot be called a business success.</p>
         <button
           type="button"
